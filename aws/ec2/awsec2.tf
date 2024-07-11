@@ -1,7 +1,19 @@
 provider "aws" {
   region     = "eu-west-3"
-  access_key = "XXXXXX"
-  secret_key = "XXXX"
+  access_key = "XXX"
+  secret_key = "XXXXX"
+}
+
+locals {
+  env = "dev"
+}
+
+resource "aws_vpc" "dev-vpc" {
+  cidr_block = "10.0.0.0/16"
+  tags = {
+    Name = "${local.env}"
+  }
+
 }
 
 resource "aws_instance" "my-first-aws-instance" {
@@ -20,31 +32,7 @@ resource "aws_iam_user" "users" {
 
 
 
-
-
-
-//inline variables are listed below.
-
-//string
-variable "instanceType" {
-  type        = string
-  default     = "t2.micro"
-  description = "Instance type of the resource."
-}
-
-//number
-variable "instanceCount" {
-  type        = number
-  default     = 2
-  description = "No:of instance need to create."
-}
-
-//boolean
-variable "enable_public_ip" {
-  type        = bool
-  default     = true
-  description = "Enable public IP for the new resource."
-}
+//example : to show usage of inline variables.
 
 //list
 variable "user_names" {
