@@ -1,7 +1,7 @@
 provider "aws" {
   region     = "eu-west-3"
-  access_key = "XXX"
-  secret_key = "XXXXX"
+  access_key = var.accesskey
+  secret_key = var.secretkey
 }
 
 locals {
@@ -25,10 +25,18 @@ resource "aws_instance" "my-first-aws-instance" {
 
 }
 
+// list using count
 resource "aws_iam_user" "users" {
   count = length(var.user_names)
   name  = var.user_names[count.index]
 }
+
+// set using for each (we cannot use list for for-each loop)
+resource "aws_iam_user" "for-each-user" {
+  for_each = var.for_each_user_names
+  name     = each.value
+}
+
 
 
 
@@ -38,6 +46,13 @@ resource "aws_iam_user" "users" {
 variable "user_names" {
   type        = list(string)
   default     = ["Anoop@1987", "Manasa@1991", "Ishaan@2020"]
+  description = "IAM Users"
+}
+
+//set
+variable "for_each_user_names" {
+  type        = set(string)
+  default     = ["Anoop", "Manasa", "Ishaan"]
   description = "IAM Users"
 }
 
