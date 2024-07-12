@@ -4,6 +4,15 @@ provider "aws" {
   secret_key = var.secretkey
 }
 
+// make sure host have access to aws (else do aws configure and set it up)
+terraform {
+  backend "s3" {
+    bucket = "anpks-terraform-state"
+    key    = "key/terraform.tfstate"
+    region = "eu-west-3"
+  }
+}
+
 locals {
   env = "dev"
 }
