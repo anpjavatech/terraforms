@@ -18,13 +18,3 @@ variable "enable_public_ip" {
   default     = true
   description = "Enable public IP for the new resource."
 }
-
-variable "accesskey" {
-  type        = string
-  description = "Access key to aws provider"
-}
-
-variable "secretkey" {
-  type        = string
-  description = "Secret key to aws provider"
-}

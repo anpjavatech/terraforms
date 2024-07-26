@@ -1,7 +1,5 @@
 provider "aws" {
-  region     = "eu-west-3"
-  access_key = "XXX"
-  secret_key = "XX"
+  region = "eu-west-3"
 }
 
 //terraform import aws_instance.test <instance id>
