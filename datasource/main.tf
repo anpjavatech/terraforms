@@ -1,24 +1,28 @@
 provider "aws" {
-  region = "eu-west-3"
+  region = "eu-north-1"
 }
 
-resource "aws_instance" "ec2-instance" {
-  ami           = "ami-09d83d8d719da9808"
-  instance_type = "t2.micro"
-  tags = {
-    Name = "Datasource Test"
-  }
-}
-
-data "aws_instance" "awsinstance" {
+data "aws_ami" "ubuntu" {
+  most_recent = true
 
   filter {
-    name   = "tag:Name"
-    values = ["Datasource Test"]
+    name   = "name"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"]
   }
-  depends_on = [aws_instance.ec2-instance]
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  owners = ["099720109477"] # Canonical
 }
 
-output "myinstanceip" {
-  value = data.aws_instance.awsinstance.public_ip
+resource "aws_instance" "web" {
+  ami           = data.aws_ami.ubuntu.id
+  instance_type = "t3.micro"
+
+  tags = {
+    Name = "HelloWorld"
+  }
 }
